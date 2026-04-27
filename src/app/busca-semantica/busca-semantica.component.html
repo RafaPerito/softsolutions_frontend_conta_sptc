@@ -1,0 +1,48 @@
+<div class="busca-box">
+  <div class="busca-texto">
+    <input
+      type="text"
+      [(ngModel)]="termo"
+      placeholder="Digite o curso, tema ou palavra-chave"
+      aria-label="Campo de busca"
+    />
+    <button type="button" (click)="buscarTexto()">Buscar</button>
+  </div>
+
+  <div class="busca-voz">
+    <label for="audioBusca">Ou envie um áudio:</label>
+    <input
+      id="audioBusca"
+      type="file"
+      accept="audio/*"
+      (change)="onAudioSelected($event)"
+    />
+    <button type="button" (click)="buscarVoz()">Buscar por voz</button>
+  </div>
+
+  <div *ngIf="carregando" class="estado-busca">
+    Buscando...
+  </div>
+
+  <div *ngIf="erro" class="erro-box">
+    {{ erro }}
+  </div>
+
+  <div *ngIf="transcricao" class="transcricao-box">
+    <h3>Transcrição</h3>
+    <p>{{ transcricao }}</p>
+  </div>
+
+  <div *ngIf="resultados.length" class="resultados-box">
+    <h3>Resultados</h3>
+
+    <div *ngFor="let item of resultados" class="resultado-item">
+      <strong>{{ item.titulo }}</strong>
+      <p>{{ item.descricao }}</p>
+
+      <a *ngIf="item.url" [href]="item.url" target="_blank" rel="noopener noreferrer">
+        Abrir resultado
+      </a>
+    </div>
+  </div>
+</div>
