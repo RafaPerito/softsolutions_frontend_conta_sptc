@@ -14,18 +14,14 @@ export class BuscaService {
   constructor(private http: HttpClient) {}
 
   buscarTexto(query: string): Observable<BuscaTextoResponse> {
-    return this.http.get<BuscaTextoResponse>(
-      `${this.buscaUrl}/text-search?q=${encodeURIComponent(query)}`
-    );
+    const url = `${this.buscaUrl}/text-search?q=${encodeURIComponent(query)}`;
+    console.log('GET', url);
+    return this.http.get<BuscaTextoResponse>(url);
   }
 
-  buscarPorVoz(audio: File): Observable<BuscaVozResponse> {
-    const formData = new FormData();
-    formData.append('audio', audio, audio.name);
-
-    return this.http.post<BuscaVozResponse>(
-      `${this.buscaUrl}/voice-search`,
-      formData
-    );
+  buscarPorVoz(text: string): Observable<BuscaVozResponse> {
+    const url = `${this.buscaUrl}/voice`;
+    console.log('POST', url, { text });
+    return this.http.post<BuscaVozResponse>(url, { text });
   }
 }
