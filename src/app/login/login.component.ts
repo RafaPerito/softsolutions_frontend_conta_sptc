@@ -1,5 +1,4 @@
-import { Component, inject, PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { MaterialModule } from '../material.module';
 import { CommonModule } from '@angular/common';
@@ -15,8 +14,6 @@ import { BService } from '../_service/bservice.service';
   imports: [MaterialModule, CommonModule, FormsModule],
 })
 export class LoginComponent {
-  private platformId = inject(PLATFORM_ID);
-  
   loginForm: FormGroup;
   errorMessage: string = '';
 
@@ -32,13 +29,11 @@ export class LoginComponent {
       const { email, senha } = this.loginForm.value;
       this.bservice.login(email, senha).subscribe({
         next: () => {
-          if (isPlatformBrowser(this.platformId)) {
-            const userId = localStorage.getItem('_idUser');
-            if (userId) {
-              this.router.navigate([`/profile/${userId}`]);
-            } else {
-              console.error('ID do usuário não encontrado no localStorage.');
-            }
+          const userId = localStorage.getItem('_idUser');
+          if (userId) {
+            this.router.navigate([`/profile/${userId}`]);
+          } else {
+            console.error('ID do usuário não encontrado no localStorage.');
           }
         },
         error: err => {

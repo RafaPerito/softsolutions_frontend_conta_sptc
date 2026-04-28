@@ -1,12 +1,12 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { MaterialModule } from '../material.module';
 
 @Component({
   selector: 'app-card-cursos',
   standalone: true,
-  imports: [CommonModule, MaterialModule, RouterLink],
+  imports: [CommonModule, MaterialModule, RouterModule],
   templateUrl: './card-cursos.component.html',
   styleUrl: './card-cursos.component.css'
 })

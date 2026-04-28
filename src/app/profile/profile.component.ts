@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-import { MaterialModule } from '../material.module';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MaterialModule } from '../material.module';
 import { BService } from '../_service/bservice.service';
 
 @Component({

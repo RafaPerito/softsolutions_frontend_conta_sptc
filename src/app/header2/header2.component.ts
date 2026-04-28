@@ -34,18 +34,13 @@ export class Header2Component {
   }
 
   logout() {
-    if (isPlatformBrowser(this.platformId)) {
-      localStorage.removeItem('token');
-      localStorage.removeItem('_idUser');
-    }
+    localStorage.removeItem('token');
+    localStorage.removeItem('_idUser');
     this.router.navigate(['/login']);
   }
 
   getUserId(): string | null {
-    if (isPlatformBrowser(this.platformId)) {
-      return localStorage.getItem('_idUser');
-    }
-    return null;
+    return localStorage.getItem('_idUser');
   }
 
 }
