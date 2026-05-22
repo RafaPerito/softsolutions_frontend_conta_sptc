@@ -1,33 +1,98 @@
-<div class="container-fluid">
+<div class="container-fluid contato-page">
   <div class="row">
-      <div class="col-md-6 half-screen order-md-1 image-container">
-          <img src="/assets/images/contato/contato.png" class="img-fluid" alt="Imagem">
-      </div>
-      <div class="col-md-6 half-screen d-flex justify-content-center align-items-center order-md-2 form-container">
-          <div class="col-md-10">
-              <h1 class="text-center mb-4 margintit">ENTRE EM CONTATO</h1>
-              <form>
-                  <div class="secao">
-                      <div class="mb-5">
-                          <input type="text" class="form-control" id="inputNome" placeholder="Nome">
-                      </div>
-                      <div class="mb-5">
-                          <input type="email" class="form-control" id="inputEmail" placeholder="Endereço de Email">
-                      </div>
-                      <div class="mb-5">
-                          <input type="text" class="form-control" id="inputAssunto" placeholder="Assunto">
-                      </div>
-                      <div class="mb-5">
-                          <textarea class="form-control" id="inputMensagem" rows="5" placeholder="Digite aqui sua mensagem"></textarea>
-                      </div>
-                  </div>
-                  <div class="text-center secao">
-                      <div class="mb-5">
-                          <button type="submit" class="btn btn-secondary btn-md w-50">Enviar</button>
-                      </div>
-                  </div>
-              </form>
+
+    <!-- IMAGEM -->
+    <div
+      class="col-lg-5 image-container d-none d-lg-block"
+    >
+      <img
+        src="/assets/images/contato/contato.png"
+        class="img-fluid"
+        alt="Contato"
+      />
+    </div>
+
+    <!-- CHAT -->
+    <div
+      class="col-lg-7 chat-container"
+    >
+      <div class="chat-wrapper">
+
+        <!-- HEADER -->
+        <div class="chat-header">
+          <div class="chat-avatar">
+            🤖
           </div>
+
+          <div>
+            <h2>
+              SoftSolutions AI
+            </h2>
+
+            <span>
+              Assistente virtual online
+            </span>
+          </div>
+        </div>
+
+        <!-- CHAT BODY -->
+        <div
+          class="chat-body"
+          #chatBody
+        >
+          <div
+            *ngFor="let msg of messages"
+            class="message-wrapper"
+            [ngClass]="{
+              'user-wrapper':
+                msg.sender === 'user',
+
+              'bot-wrapper':
+                msg.sender === 'bot'
+            }"
+          >
+            <div
+              class="message"
+              [ngClass]="{
+                'user-message':
+                  msg.sender === 'user',
+
+                'bot-message':
+                  msg.sender === 'bot'
+              }"
+            >
+              {{ msg.text }}
+            </div>
+          </div>
+
+          <div
+            *ngIf="loading"
+            class="typing"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
+
+        <!-- INPUT -->
+        <div class="chat-input">
+          <input
+            type="text"
+            placeholder="Digite sua mensagem..."
+            [(ngModel)]="userMessage"
+            (keyup.enter)="sendMessage()"
+          />
+
+          <button
+            (click)="sendMessage()"
+          >
+            Enviar
+          </button>
+        </div>
+
       </div>
+    </div>
+
   </div>
 </div>
