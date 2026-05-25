@@ -1,7 +1,6 @@
 <div class="container-fluid contato-page">
   <div class="row">
 
-    <!-- IMAGEM -->
     <div
       class="col-lg-5 image-container d-none d-lg-block"
     >
@@ -12,13 +11,11 @@
       />
     </div>
 
-    <!-- CHAT -->
     <div
       class="col-lg-7 chat-container"
     >
       <div class="chat-wrapper">
 
-        <!-- HEADER -->
         <div class="chat-header">
           <div class="chat-avatar">
             🤖
@@ -33,9 +30,15 @@
               Assistente virtual online
             </span>
           </div>
+
+          <button
+            class="clear-chat-btn"
+            (click)="clearChat()"
+          >
+            Limpar
+          </button>
         </div>
 
-        <!-- CHAT BODY -->
         <div
           class="chat-body"
           #chatBody
@@ -62,6 +65,18 @@
               }"
             >
               {{ msg.text }}
+
+              <div
+                *ngIf="msg.suggestions?.length"
+                class="suggestions"
+              >
+                <button
+                  *ngFor="let suggestion of msg.suggestions"
+                  (click)="selectSuggestion(suggestion)"
+                >
+                  {{ suggestion }}
+                </button>
+              </div>
             </div>
           </div>
 
@@ -75,7 +90,6 @@
           </div>
         </div>
 
-        <!-- INPUT -->
         <div class="chat-input">
           <input
             type="text"

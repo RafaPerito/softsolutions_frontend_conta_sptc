@@ -1,6 +1,7 @@
 import {
   Component,
   ElementRef,
+  OnInit,
   ViewChild,
 } from '@angular/core';
 
@@ -35,7 +36,9 @@ import {
   styleUrl:
     './contato.component.css',
 })
-export class ContatoComponent {
+export class ContatoComponent
+  implements OnInit
+{
   @ViewChild('chatBody')
   chatBody!: ElementRef;
 
@@ -43,18 +46,48 @@ export class ContatoComponent {
 
   loading = false;
 
-  messages: ChatMessage[] = [
-    {
-      sender: 'bot',
-
-      text:
-        'Olá 👋 Sou o assistente virtual da SoftSolutions. Como posso te ajudar hoje?',
-    },
-  ];
+  messages: ChatMessage[] = [];
 
   constructor(
     private readonly chatbotService: ChatbotService,
   ) {}
+
+  ngOnInit(): void {
+    this.loadConversation();
+  }
+
+  private loadConversation(): void {
+    const saved =
+      localStorage.getItem(
+        'softsolutions_chat',
+      );
+
+    if (saved) {
+      this.messages =
+        JSON.parse(saved);
+
+      return;
+    }
+
+    this.messages = [
+      {
+        sender: 'bot',
+
+        text:
+          'Olá 👋 Sou o assistente virtual da SoftSolutions. Posso recomendar cursos, explicar tecnologias e ajudar nos seus estudos 🚀',
+
+        timestamp: new Date(),
+      },
+    ];
+  }
+
+  private saveConversation(): void {
+    localStorage.setItem(
+      'softsolutions_chat',
+
+      JSON.stringify(this.messages),
+    );
+  }
 
   sendMessage(): void {
     if (
@@ -69,7 +102,9 @@ export class ContatoComponent {
 
     this.messages.push({
       sender: 'user',
+
       text: message,
+
       timestamp: new Date(),
     });
 
@@ -77,10 +112,24 @@ export class ContatoComponent {
 
     this.loading = true;
 
+    this.saveConversation();
+
     this.scrollToBottom();
 
+    const conversationHistory =
+      this.messages.map(
+        (message) => ({
+          sender: message.sender,
+
+          text: message.text,
+        }),
+      );
+
     this.chatbotService
-      .sendMessage(message)
+      .sendMessage(
+        message,
+        conversationHistory,
+      )
       .subscribe({
         next: (response) => {
           this.messages.push({
@@ -89,9 +138,22 @@ export class ContatoComponent {
             text:
               response.response ??
               'Não consegui responder no momento.',
+
+            timestamp:
+              new Date(),
+
+            suggestions:
+              response.suggestions ??
+              [],
+
+            relatedCourses:
+              response.relatedCourses ??
+              [],
           });
 
           this.loading = false;
+
+          this.saveConversation();
 
           this.scrollToBottom();
         },
@@ -102,13 +164,44 @@ export class ContatoComponent {
 
             text:
               'Erro ao conectar com o servidor.',
+
+            timestamp:
+              new Date(),
           });
 
           this.loading = false;
 
+          this.saveConversation();
+
           this.scrollToBottom();
         },
       });
+  }
+
+  selectSuggestion(
+    suggestion: string,
+  ): void {
+    this.userMessage =
+      suggestion;
+
+    this.sendMessage();
+  }
+
+  clearChat(): void {
+    localStorage.removeItem(
+      'softsolutions_chat',
+    );
+
+    this.messages = [
+      {
+        sender: 'bot',
+
+        text:
+          'Conversa reiniciada 👋 Como posso te ajudar agora?',
+
+        timestamp: new Date(),
+      },
+    ];
   }
 
   private scrollToBottom(): void {

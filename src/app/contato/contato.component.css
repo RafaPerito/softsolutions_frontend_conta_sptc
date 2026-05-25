@@ -448,4 +448,63 @@
     padding:
       14px 18px;
   }
+  .clear-chat-btn {
+  margin-left: auto;
+
+  border: none;
+
+  padding:
+    10px 16px;
+
+  border-radius: 12px;
+
+  background:
+    rgba(255, 255, 255, 0.08);
+
+  color: white;
+
+  font-size: 0.85rem;
+
+  transition: 0.2s;
+}
+
+.clear-chat-btn:hover {
+  background:
+    rgba(255, 255, 255, 0.14);
+}
+
+.suggestions {
+  display: flex;
+
+  flex-wrap: wrap;
+
+  gap: 10px;
+
+  margin-top: 14px;
+}
+
+.suggestions button {
+  border: none;
+
+  padding:
+    8px 14px;
+
+  border-radius: 999px;
+
+  background:
+    rgba(99, 102, 241, 0.18);
+
+  color: white;
+
+  font-size: 0.82rem;
+
+  transition: 0.2s;
+}
+
+.suggestions button:hover {
+  background:
+    rgba(99, 102, 241, 0.35);
+
+  transform: translateY(-1px);
+}
 }
