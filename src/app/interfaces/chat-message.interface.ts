@@ -1,3 +1,11 @@
+export interface ChatNavigationItem {
+  label: string;
+
+  description: string;
+
+  route: string;
+}
+
 export interface ChatMessage {
   sender: 'user' | 'bot';
 
@@ -10,6 +18,8 @@ export interface ChatMessage {
   suggestions?: string[];
 
   relatedCourses?: string[];
+
+  navigation?: ChatNavigationItem[];
 }
 
 export interface ChatHistoryItem {

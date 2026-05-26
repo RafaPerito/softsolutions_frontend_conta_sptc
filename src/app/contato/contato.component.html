@@ -1,6 +1,10 @@
 <div class="container-fluid contato-page">
   <div class="row">
 
+    <!-- ===================================================== -->
+    <!-- IMAGE -->
+    <!-- ===================================================== -->
+
     <div
       class="col-lg-5 image-container d-none d-lg-block"
     >
@@ -11,12 +15,21 @@
       />
     </div>
 
+    <!-- ===================================================== -->
+    <!-- CHAT -->
+    <!-- ===================================================== -->
+
     <div
       class="col-lg-7 chat-container"
     >
       <div class="chat-wrapper">
 
+        <!-- ===================================================== -->
+        <!-- HEADER -->
+        <!-- ===================================================== -->
+
         <div class="chat-header">
+
           <div class="chat-avatar">
             🤖
           </div>
@@ -37,12 +50,18 @@
           >
             Limpar
           </button>
+
         </div>
+
+        <!-- ===================================================== -->
+        <!-- BODY -->
+        <!-- ===================================================== -->
 
         <div
           class="chat-body"
           #chatBody
         >
+
           <div
             *ngFor="let msg of messages"
             class="message-wrapper"
@@ -54,6 +73,7 @@
                 msg.sender === 'bot'
             }"
           >
+
             <div
               class="message"
               [ngClass]="{
@@ -64,21 +84,106 @@
                   msg.sender === 'bot'
               }"
             >
-              {{ msg.text }}
+
+              <!-- ===================================================== -->
+              <!-- MESSAGE TEXT -->
+              <!-- ===================================================== -->
+
+              <div class="message-text">
+                {{ msg.text }}
+              </div>
+
+              <!-- ===================================================== -->
+              <!-- SUGGESTIONS -->
+              <!-- ===================================================== -->
 
               <div
                 *ngIf="msg.suggestions?.length"
                 class="suggestions"
               >
+
                 <button
                   *ngFor="let suggestion of msg.suggestions"
                   (click)="selectSuggestion(suggestion)"
                 >
                   {{ suggestion }}
                 </button>
+
               </div>
+
+              <!-- ===================================================== -->
+              <!-- RELATED COURSES -->
+              <!-- ===================================================== -->
+
+              <div
+                *ngIf="msg.relatedCourses?.length"
+                class="related-courses"
+              >
+
+                <div class="section-title">
+                  Cursos relacionados
+                </div>
+
+                <div
+                  *ngFor="let course of msg.relatedCourses"
+                  class="course-pill"
+                >
+                  🎓 {{ course }}
+                </div>
+
+              </div>
+
+              <!-- ===================================================== -->
+              <!-- NAVIGATION -->
+              <!-- ===================================================== -->
+
+              <div
+                *ngIf="msg.navigation?.length"
+                class="navigation-links"
+              >
+
+                <div class="section-title">
+                  Acessos rápidos
+                </div>
+
+                <div
+                  *ngFor="let nav of msg.navigation"
+                  class="navigation-card"
+                >
+
+                  <div class="navigation-info">
+
+                    <div class="navigation-title">
+                      {{ nav.label }}
+                    </div>
+
+                    <div class="navigation-description">
+                      {{ nav.description }}
+                    </div>
+
+                    <div class="navigation-route">
+                      {{ nav.route }}
+                    </div>
+
+                  </div>
+
+                  <button
+                    class="navigation-button"
+                    (click)="navigateTo(nav.route)"
+                  >
+                    Acessar
+                  </button>
+
+                </div>
+
+              </div>
+
             </div>
           </div>
+
+          <!-- ===================================================== -->
+          <!-- TYPING -->
+          <!-- ===================================================== -->
 
           <div
             *ngIf="loading"
@@ -88,9 +193,15 @@
             <span></span>
             <span></span>
           </div>
+
         </div>
 
+        <!-- ===================================================== -->
+        <!-- INPUT -->
+        <!-- ===================================================== -->
+
         <div class="chat-input">
+
           <input
             type="text"
             placeholder="Digite sua mensagem..."
@@ -103,6 +214,7 @@
           >
             Enviar
           </button>
+
         </div>
 
       </div>

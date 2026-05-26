@@ -5,6 +5,8 @@ import {
   ViewChild,
 } from '@angular/core';
 
+import { Router } from '@angular/router';
+
 import {
   CommonModule,
 } from '@angular/common';
@@ -50,11 +52,17 @@ export class ContatoComponent
 
   constructor(
     private readonly chatbotService: ChatbotService,
+
+    private readonly router: Router,
   ) {}
 
   ngOnInit(): void {
     this.loadConversation();
   }
+
+  // ======================================================
+  // LOAD CONVERSATION
+  // ======================================================
 
   private loadConversation(): void {
     const saved =
@@ -74,12 +82,16 @@ export class ContatoComponent
         sender: 'bot',
 
         text:
-          'Olá 👋 Sou o assistente virtual da SoftSolutions. Posso recomendar cursos, explicar tecnologias e ajudar nos seus estudos 🚀',
+          'Olá 👋 Sou o assistente virtual da SoftSolutions. Posso recomendar cursos, explicar tecnologias e ajudar na navegação da plataforma 🚀',
 
         timestamp: new Date(),
       },
     ];
   }
+
+  // ======================================================
+  // SAVE
+  // ======================================================
 
   private saveConversation(): void {
     localStorage.setItem(
@@ -88,6 +100,10 @@ export class ContatoComponent
       JSON.stringify(this.messages),
     );
   }
+
+  // ======================================================
+  // SEND MESSAGE
+  // ======================================================
 
   sendMessage(): void {
     if (
@@ -149,6 +165,10 @@ export class ContatoComponent
             relatedCourses:
               response.relatedCourses ??
               [],
+
+            navigation:
+              response.navigation ??
+              [],
           });
 
           this.loading = false;
@@ -178,6 +198,10 @@ export class ContatoComponent
       });
   }
 
+  // ======================================================
+  // SUGGESTION CLICK
+  // ======================================================
+
   selectSuggestion(
     suggestion: string,
   ): void {
@@ -186,6 +210,22 @@ export class ContatoComponent
 
     this.sendMessage();
   }
+
+  // ======================================================
+  // NAVIGATION
+  // ======================================================
+
+  navigateTo(
+    route: string,
+  ): void {
+    this.router.navigate([
+      route,
+    ]);
+  }
+
+  // ======================================================
+  // CLEAR CHAT
+  // ======================================================
 
   clearChat(): void {
     localStorage.removeItem(
@@ -203,6 +243,10 @@ export class ContatoComponent
       },
     ];
   }
+
+  // ======================================================
+  // SCROLL
+  // ======================================================
 
   private scrollToBottom(): void {
     setTimeout(() => {
